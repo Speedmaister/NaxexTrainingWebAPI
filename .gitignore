@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/packages
+/Naxex.Data/obj/Debug
+/Naxex.Data/bin/Debug
+/Naxex.WebAPI/.vs
+/Naxex.WebAPI/obj/Debug
+/Naxex.WebAPI/bin

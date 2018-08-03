@@ -1,0 +1,294 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="NaxexModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="TextIIdentifier" />
+          </Key>
+          <Property Name="TextIIdentifier" Type="char" MaxLength="3" Nullable="false" />
+          <Property Name="SchoolId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Class_Teacher">
+          <Key>
+            <PropertyRef Name="TeacherId" />
+            <PropertyRef Name="ClassId" />
+          </Key>
+          <Property Name="TeacherId" Type="int" Nullable="false" />
+          <Property Name="ClassId" Type="char" MaxLength="3" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Discipline">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="TeacherId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="School">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Class_School">
+          <End Role="School" Type="Self.School" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Class" Type="Self.Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="School">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Class">
+              <PropertyRef Name="SchoolId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Class_Teacher_Class">
+          <End Role="Class" Type="Self.Class" Multiplicity="1" />
+          <End Role="Class_Teacher" Type="Self.Class_Teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Class">
+              <PropertyRef Name="TextIIdentifier" />
+            </Principal>
+            <Dependent Role="Class_Teacher">
+              <PropertyRef Name="ClassId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Class_Teacher_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="Class_Teacher" Type="Self.Class_Teacher" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Class_Teacher">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Discipline_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="Discipline" Type="Self.Discipline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Discipline">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Function Name="spGetSchool" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="NaxexModelStoreContainer">
+          <EntitySet Name="Class" EntityType="Self.Class" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Class_Teacher" EntityType="Self.Class_Teacher" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Discipline" EntityType="Self.Discipline" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="School" EntityType="Self.School" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Teacher" EntityType="Self.Teacher" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Class_School" Association="Self.FK_Class_School">
+            <End Role="School" EntitySet="School" />
+            <End Role="Class" EntitySet="Class" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Class_Teacher_Class" Association="Self.FK_Class_Teacher_Class">
+            <End Role="Class" EntitySet="Class" />
+            <End Role="Class_Teacher" EntitySet="Class_Teacher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Class_Teacher_Teacher" Association="Self.FK_Class_Teacher_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Class_Teacher" EntitySet="Class_Teacher" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Discipline_Teacher" Association="Self.FK_Discipline_Teacher">
+            <End Role="Teacher" EntitySet="Teacher" />
+            <End Role="Discipline" EntitySet="Discipline" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="NaxexModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Class">
+          <Key>
+            <PropertyRef Name="TextIIdentifier" />
+          </Key>
+          <Property Name="TextIIdentifier" Type="String" MaxLength="3" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="SchoolId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="School" Relationship="Self.FK_Class_School" FromRole="Class" ToRole="School" />
+          <NavigationProperty Name="Teachers" Relationship="Self.Class_Teacher" FromRole="Class" ToRole="Teacher" />
+        </EntityType>
+        <EntityType Name="Discipline">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="TeacherId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Teacher" Relationship="Self.FK_Discipline_Teacher" FromRole="Discipline" ToRole="Teacher" />
+        </EntityType>
+        <EntityType Name="School">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Classes" Relationship="Self.FK_Class_School" FromRole="School" ToRole="Class" />
+        </EntityType>
+        <EntityType Name="Teacher">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Disciplines" Relationship="Self.FK_Discipline_Teacher" FromRole="Teacher" ToRole="Discipline" />
+          <NavigationProperty Name="Classes" Relationship="Self.Class_Teacher" FromRole="Teacher" ToRole="Class" />
+        </EntityType>
+        <Association Name="FK_Class_School">
+          <End Role="School" Type="Self.School" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Class" Type="Self.Class" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="School">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Class">
+              <PropertyRef Name="SchoolId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Discipline_Teacher">
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="1" />
+          <End Role="Discipline" Type="Self.Discipline" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Teacher">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Discipline">
+              <PropertyRef Name="TeacherId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Class_Teacher">
+          <End Role="Class" Type="Self.Class" Multiplicity="*" />
+          <End Role="Teacher" Type="Self.Teacher" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="NaxexEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Classes" EntityType="Self.Class" />
+          <EntitySet Name="Disciplines" EntityType="Self.Discipline" />
+          <EntitySet Name="Schools" EntityType="Self.School" />
+          <EntitySet Name="Teachers" EntityType="Self.Teacher" />
+          <AssociationSet Name="FK_Class_School" Association="Self.FK_Class_School">
+            <End Role="School" EntitySet="Schools" />
+            <End Role="Class" EntitySet="Classes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Discipline_Teacher" Association="Self.FK_Discipline_Teacher">
+            <End Role="Teacher" EntitySet="Teachers" />
+            <End Role="Discipline" EntitySet="Disciplines" />
+          </AssociationSet>
+          <AssociationSet Name="Class_Teacher" Association="Self.Class_Teacher">
+            <End Role="Class" EntitySet="Classes" />
+            <End Role="Teacher" EntitySet="Teachers" />
+          </AssociationSet>
+          <FunctionImport Name="spGetSchool" ReturnType="Collection(NaxexModel.spGetSchool_Result)">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="spGetSchool_Result">
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="NaxexModelStoreContainer" CdmEntityContainer="NaxexEntities">
+          <EntitySetMapping Name="Classes">
+            <EntityTypeMapping TypeName="NaxexModel.Class">
+              <MappingFragment StoreEntitySet="Class">
+                <ScalarProperty Name="TextIIdentifier" ColumnName="TextIIdentifier" />
+                <ScalarProperty Name="SchoolId" ColumnName="SchoolId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Disciplines">
+            <EntityTypeMapping TypeName="NaxexModel.Discipline">
+              <MappingFragment StoreEntitySet="Discipline">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="TeacherId" ColumnName="TeacherId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Schools">
+            <EntityTypeMapping TypeName="NaxexModel.School">
+              <MappingFragment StoreEntitySet="School">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teachers">
+            <EntityTypeMapping TypeName="NaxexModel.Teacher">
+              <MappingFragment StoreEntitySet="Teacher">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="Class_Teacher" TypeName="NaxexModel.Class_Teacher" StoreEntitySet="Class_Teacher">
+            <EndProperty Name="Class">
+              <ScalarProperty Name="TextIIdentifier" ColumnName="ClassId" />
+            </EndProperty>
+            <EndProperty Name="Teacher">
+              <ScalarProperty Name="Id" ColumnName="TeacherId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <FunctionImportMapping FunctionImportName="spGetSchool" FunctionName="NaxexModel.Store.spGetSchool">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="NaxexModel.spGetSchool_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
